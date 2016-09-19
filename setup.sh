@@ -11,6 +11,9 @@ fi
 cp .vimrc ~/.vimrc
 
 #Install needed packages (including Vim)
+#apt-get install -y make
+apt-get install -y python2.7-dev
+apt-get install -y cmake
 apt-get install -y vim
 apt-get install -y git
 apt-get install -y clang
@@ -24,5 +27,9 @@ vim +PluginInstall +qall
 #Run the setup needed for YouCompleteMe
 ~/.vim/bundle/YouCompleteMe/install.py --clang-completer
 
-echo "Installation done"
+if [ $? -eq 0 ]; then
+    echo "Installation done"
+else
+    echo "Error! See output for more information."
+fi
 
