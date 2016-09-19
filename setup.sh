@@ -11,7 +11,6 @@ fi
 cp .vimrc ~/.vimrc
 
 #Install needed packages (including Vim)
-#apt-get install -y make
 apt-get install -y python2.7-dev
 apt-get install -y cmake
 apt-get install -y vim
