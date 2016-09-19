@@ -87,6 +87,9 @@ set smartcase
 set incsearch
 set hlsearch
 
+"Turn off search highlighting after a search by hitting Enter
+nnoremap <CR> :noh<CR><CR>
+
 "Remove buffer when closing tab
 set nohidden
 
