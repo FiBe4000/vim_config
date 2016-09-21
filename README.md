@@ -38,7 +38,7 @@ You can update the plugins by starting Vim and run:
 :PluginUpdate
 ```
 
-If you don't want to remove a plugin comment/delete it from the .vimrc and and run:
+If you want to remove a plugin comment/delete it from the .vimrc and and run:
 ```
 :PluginClean
 ```
