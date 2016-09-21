@@ -1,6 +1,13 @@
 #!/bin/bash
 
-DATE=$(date +"%m-%d-%Y")
+DATE=$(date +"%d-%m-%Y")
+
+#Find the user running the script
+if [ $SUDO_USER ]; then
+    USER=$SUDO_USER
+else
+    USER=`whoami`
+fi
 
 #Backup current .vimrc if there is one
 if [ -e ~/.vimrc ]; then
@@ -10,10 +17,9 @@ fi
 #Use the new .vimrc
 cp .vimrc ~/.vimrc
 
-#Install needed packages (including Vim)
+#Install needed packages
 apt-get install -y python2.7-dev
 apt-get install -y cmake
-apt-get install -y vim
 apt-get install -y git
 apt-get install -y clang
 
@@ -27,6 +33,9 @@ vim +PluginInstall +qall
 ~/.vim/bundle/YouCompleteMe/install.py --clang-completer
 
 if [ $? -eq 0 ]; then
+    chown -R $USER:$USER ~/.vim
+    chown -R $USER:$USER ~/.vimrc
+    chown -R $USER:$USER ~/.vimrc.$DATE
     echo "Installation done"
 else
     echo "Error! See output for more information."
