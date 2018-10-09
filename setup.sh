@@ -1,38 +1,38 @@
-#!/bin/bash
+#!/bin/sh
 
-DATE=$(date +"%d-%m-%Y")
+date=$(date +"%d-%m-%Y")
 
 # Find the user running the script
 if [ $SUDO_USER ]; then
-    USER=$SUDO_USER
+    user=$SUDO_USER
 else
-    USER=`whoami`
+    user=`whoami`
 fi
 
 # Backup current .vimrc if there is one
-if [ -e ~/.vimrc ]; then
-    mv ~/.vimrc ~/.vimrc.$DATE
+if [ -e /home/$user/.vimrc ]; then
+    sudo -u mv /home/$user/.vimrc /home/$user/.vimrc.$date
 fi
 
 # Use the new .vimrc
-cp .vimrc ~/.vimrc
+sudo -u $user cp .vimrc /home/$user/.vimrc
 
 # Create the directory for persistend undo
-mkdir -p ~/.vim/undodir
+sudo -u $user mkdir -p /home/$user/.vim/undodir
 
 # Install needed packages
 pacman -S --noconfirm git python-neovim ctags clang wget
 
 # Download Vundle for plugin management
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+sudo -u $user git clone https://github.com/VundleVim/Vundle.vim.git /home/$user/.vim/bundle/Vundle.vim
 
 # Install the plugins specified in .vimrc
-vim +PluginInstall +qall
+sudo -u $user vim +PluginInstall +qall
 
 if [ $? -eq 0 ]; then
-    chown -R $USER:$USER ~/.vim
-    chown -R $USER:$USER ~/.vimrc
-    chown -R $USER:$USER ~/.vimrc.$DATE
+    sudo -u $user chown -R $user:$user home/$user/.vim
+    sudo -u $user chown -R $user:$user home/$user/.vimrc
+    sudo -u $user chown -R $user:$user home/$user/.vimrc.$date
     echo "Done"
 else
     echo "Error! See output for more information."
