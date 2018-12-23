@@ -27,7 +27,8 @@ Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'Shougo/deoplete.nvim'
 Plugin 'Shougo/neoinclude.vim'
 Plugin 'zchee/deoplete-clang'
-Plugin 'justinmk/vim-syntax-extra'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'sheerun/vim-polyglot'
 "Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'ryanoasis/vim-devicons'
 
@@ -86,6 +87,11 @@ let g:airline#extensions#tabline#enabled = 1
 """""""""""""""""""""""""""""""" Indentguides """"""""""""""""""""""""""""""""""
 " Stop vim-indentguides to set list
 let g:indentguides_toggleListMode=0
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+""""""""""""""""""""""""""""""""""" Polyglot """""""""""""""""""""""""""""""""""
+let g:polyglot_disabled = ['c']
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -154,6 +160,7 @@ set tw=500
 " Display line numbers and use width 3
 set nu
 set numberwidth=3
+set relativenumber
 
 " Enable mouse
 set mouse=a
@@ -174,6 +181,11 @@ set nohidden
 set splitbelow
 set splitright
 
+" Search for tags file to use
+set tags =./tags
+
+" Decrease update time
+set updatetime=500
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""" Programming """"""""""""""""""""""""""""""""""
@@ -274,3 +286,12 @@ func! DeleteTrailingWS()
     exe "normal `z"
 endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""" Automatic toggling between line nr modes """""""""""""""""""
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+

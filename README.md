@@ -44,6 +44,8 @@ This configuration uses the following plugins:
 * [deoplete-clang](https://github.com/zchee/deoplete-clang)
 * [vim-syntax-extra](https://github.com/justinmk/vim-syntax-extra)
 * [vim-devicons](https://github.com/ryanoasis/vim-devicons)
+* [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
+* [vim-polyglot](https://github.com/sheerun/vim-polyglot)
 
 ## Usage
 This configuration uses the standard Vim key mapping, except:
