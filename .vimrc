@@ -10,9 +10,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
-"Plugins go here
+" Plugins
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'arcticicestudio/nord-vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
@@ -44,10 +44,10 @@ filetype plugin indent on
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#clang#libclang_path = "/usr/lib/libclang.so"
 let g:deoplete#sources#clang#clang_header = "/usr/lib/clang"
-let g:deoplete#enable_smart_case = 1
+"let g:deoplete#enable_smart_case = 1
 
 if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
+""  let g:deoplete#omni#input_patterns = {}
 endif
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -78,8 +78,7 @@ let g:tagbar_compact = 1
 
 """"""""""""""""""""""""""""""""""" Airline """"""""""""""""""""""""""""""""""""
 let g:airline_powerline_fonts=1
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
+let g:airline_theme='nord'
 let g:airline#extensions#tabline#enabled = 1
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -239,7 +238,10 @@ autocmd BufWrite *.cpp :call DeleteTrailingWS()
 " Colors and colorscheme
 set t_Co=256
 set background=dark
-colorscheme solarized
+colorscheme nord
+"hi! Normal ctermbg=black guibg=black
+"highlight colorcolumn ctermbg=8
+"highlight cursorline ctermbg=8
 
 " Highlight current line
 set cursorline
