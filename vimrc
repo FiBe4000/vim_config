@@ -8,6 +8,8 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 
+let g:polyglot_disabled = ['c']
+
 call vundle#begin()
 
 " Plugins
@@ -22,6 +24,7 @@ Plugin 'raimondi/delimitmate'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'thaerkh/vim-indentguides'
 Plugin 'majutsushi/tagbar'
+Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'Shougo/deoplete.nvim'
@@ -90,7 +93,7 @@ let g:indentguides_toggleListMode=0
 
 
 """"""""""""""""""""""""""""""""""" Polyglot """""""""""""""""""""""""""""""""""
-let g:polyglot_disabled = ['c']
+" Nothing
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -117,6 +120,17 @@ map <silent> ,f :NERDTreeToggle<CR>
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
+" Toggle fold if applicable
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+
+" Toggle terminal on/off (neovim)
+nnoremap <F4> :call TermToggle(12)<CR>
+inoremap <F4> <Esc>:call TermToggle(12)<CR>
+tnoremap <F4> <C-\><C-n>:call TermToggle(12)<CR>
+
+" Terminal go back to normal mode
+tnoremap <Esc> <C-\><C-n>
+tnoremap :q! <C-\><C-n>:q!<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""" General Settings """""""""""""""""""""""""""""""
@@ -230,15 +244,17 @@ autocmd BufWrite *.c :call DeleteTrailingWS()
 autocmd BufWrite *.h :call DeleteTrailingWS()
 autocmd BufWrite *.cpp :call DeleteTrailingWS()
 
+" File type specifics
+au BufNewFile,BufRead *.py set tabstop=4| set softtabstop=4| set shiftwidth=4| set foldmethod=indent| set foldlevel=99
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""" Visuals """"""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Colors and colorscheme
-set t_Co=256
 set background=dark
 colorscheme nord
+"set t_Co=256
 "hi! Normal ctermbg=black guibg=black
 "highlight colorcolumn ctermbg=8
 "highlight cursorline ctermbg=8
@@ -295,5 +311,29 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
   autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""" Terminal Function """""""""""""""""""""""""""""""
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle(height)
+    if win_gotoid(g:term_win)
+        hide
+    else
+        botright new
+        exec "resize " . a:height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set nonumber
+            set norelativenumber
+            set signcolumn=no
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
